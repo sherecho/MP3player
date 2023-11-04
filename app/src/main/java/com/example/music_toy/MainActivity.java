@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
     Button playBtn, stopBtn, pauseBtn;
     MediaPlayer mplayer;
     private boolean isPlaying;
+    private boolean ispausing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,43 +29,50 @@ public class MainActivity extends AppCompatActivity {
         playBtn.setVisibility(View.VISIBLE);
         pauseBtn.setVisibility(View.VISIBLE);
         isPlaying = false;
+        ispausing=false;
         playBtn.setOnClickListener(new mClick());
+        stopBtn.setOnClickListener(new mClick());
+        pauseBtn.setOnClickListener(new mClick());
     }
+
     class  mClick implements View.OnClickListener {
         private  static final String TAG = "myTAG";
         @Override
         public void onClick(View v) {
-            if (r1.isChecked()) {
-                Log.d(TAG, "check1");
-                if (mplayer != null && isPlaying) {
-                    mplayer.release();
-                    mplayer.reset();
-                }
-                mplayer = MediaPlayer.create(MainActivity.this, R.raw.mtest1);
-            }
-            if (r2.isChecked()) {
-                Log.d(TAG, "check2");
-                if (mplayer != null && isPlaying) {
-                    mplayer.release();
-                    mplayer.reset();
-                }
-                mplayer = MediaPlayer.create(MainActivity.this, R.raw.mtest2);
-            }
-            if (r3.isChecked()) {
-                Log.d(TAG, "check3");
-                if (mplayer != null && isPlaying) {
-                    mplayer.release();
-                    mplayer.reset();
-                }
-                mplayer = MediaPlayer.create(MainActivity.this, R.raw.mtest3);
-            }
-
+            Log.d(TAG, "click");
             playBtn.setOnClickListener(v1 -> {
+                if (r1.isChecked()) {
+                    Log.d(TAG, "check1");
+                    if (mplayer != null && isPlaying) {
+                        mplayer.release();
+                        mplayer.reset();
+                        Log.d(TAG, "clickif");
+                    }
+                    mplayer = MediaPlayer.create(MainActivity.this, R.raw.mtest1);
+                }
+                if (r2.isChecked()) {
+                    Log.d(TAG, "check2");
+                    if (mplayer != null && isPlaying) {
+                        mplayer.release();
+                        mplayer.reset();
+                    }
+                    mplayer = MediaPlayer.create(MainActivity.this, R.raw.mtest2);
+                }
+                if (r3.isChecked()) {
+                    Log.d(TAG, "check3");
+                    if (mplayer != null && isPlaying) {
+                        mplayer.release();
+                        mplayer.reset();
+                    }
+                    mplayer = MediaPlayer.create(MainActivity.this, R.raw.mtest3);
+                }
+
                 if (mplayer != null && !isPlaying) {
                     playBtn.setVisibility(View.GONE);
                     pauseBtn.setVisibility(View.VISIBLE);
                     isPlaying = true;
                     mplayer.start();
+                    Log.d(TAG, "bofaang");
                     mplayer.setOnCompletionListener(mplayer -> {
                         mplayer.release();
                         Toast.makeText(MainActivity.this, "播放结束！", Toast.LENGTH_SHORT).show();
@@ -77,11 +85,37 @@ public class MainActivity extends AppCompatActivity {
             pauseBtn.setOnClickListener(v12 -> {
                 if (isPlaying) {
                     mplayer.pause();
+                    Toast.makeText(MainActivity.this, "播放暂停！", Toast.LENGTH_SHORT).show();
                     isPlaying = false;
+                    ispausing=true;
                 }
                 else {
                     mplayer.start();
+                    Toast.makeText(MainActivity.this, "继续播放！", Toast.LENGTH_SHORT).show();
                     isPlaying = true;
+                    ispausing=false;
+                }
+            });
+
+            stopBtn.setOnClickListener(v13 -> {
+                if (isPlaying) {
+                    mplayer.release();
+                    //mplayer.reset();
+                    Toast.makeText(MainActivity.this, "播放停止！", Toast.LENGTH_SHORT).show();
+                    playBtn.setVisibility(View.VISIBLE);
+                    isPlaying = false;
+                    ispausing=false;
+                }
+                else{
+                    Toast.makeText(MainActivity.this, "播放停止！", Toast.LENGTH_SHORT).show();
+                    playBtn.setVisibility(View.VISIBLE);
+                    isPlaying = false;
+                    if(ispausing){
+                        mplayer.release();
+                        //mplayer.reset();
+                        ispausing=false;
+                    }
+
                 }
             });
 
