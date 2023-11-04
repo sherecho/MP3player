@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MUSIC_TOY</string>
+    <string name="t1">音乐播放器</string>
+    <string name="t2">第一首</string>
+    <string name="t3">第二首</string>
+    <string name="t4">第三首</string>
+    <string name="t5">开始播放</string>
+    <string name="t6">暂停播放</string>
+    <string name="t7">停止</string>
+</resources>
