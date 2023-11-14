@@ -7,11 +7,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Toast;
+import android.content.Intent;
 
 import android.util.Log;
 public class MainActivity extends AppCompatActivity {
     RadioButton r1, r2, r3;
-    Button playBtn, stopBtn, pauseBtn;
+    Button finishBtn;
     MediaPlayer mplayer;
     private boolean isPlaying;
     private boolean ispausing;
@@ -23,101 +24,48 @@ public class MainActivity extends AppCompatActivity {
         r1 =  findViewById(R.id.radioButton1);
         r2 =  findViewById(R.id.radioButton2);
         r3 =  findViewById(R.id.radioButton3);
-        playBtn=findViewById(R.id.playBtn);
-        stopBtn=findViewById(R.id.stopBtn);
-        pauseBtn=findViewById(R.id.pauseBtn);
-        playBtn.setVisibility(View.VISIBLE);
-        pauseBtn.setVisibility(View.VISIBLE);
-        isPlaying = false;
-        ispausing=false;
-        playBtn.setOnClickListener(new mClick());
-        stopBtn.setOnClickListener(new mClick());
-        pauseBtn.setOnClickListener(new mClick());
+        //playBtn=findViewById(R.id.playBtn);
+        finishBtn=findViewById(R.id.finish);
+        finishBtn.setVisibility(View.VISIBLE);
+        finishBtn.setOnClickListener(new mClick());
     }
 
     class  mClick implements View.OnClickListener {
         private  static final String TAG = "myTAG";
+        public String[] name={"进击的巨人op1","进击的巨人op2","进击的巨人op3"};
         @Override
         public void onClick(View v) {
             Log.d(TAG, "click");
-            playBtn.setOnClickListener(v1 -> {
+            finishBtn.setOnClickListener(v1 -> {
                 if (r1.isChecked()) {
-                    Log.d(TAG, "check1");
-                    if (mplayer != null && isPlaying) {
-                        mplayer.release();
-                        mplayer.reset();
-                        Log.d(TAG, "clickif");
-                    }
-                    mplayer = MediaPlayer.create(MainActivity.this, R.raw.mtest1);
+
+                    Intent intent=new Intent(MainActivity.this,music_play.class);
+                    //显示调用ResultActivity
+                    intent.putExtra("name",name[0]);
+                    intent.putExtra("position",String.valueOf(0));
+                    startActivity(intent);
+
                 }
                 if (r2.isChecked()) {
-                    Log.d(TAG, "check2");
-                    if (mplayer != null && isPlaying) {
-                        mplayer.release();
-                        mplayer.reset();
-                    }
-                    mplayer = MediaPlayer.create(MainActivity.this, R.raw.mtest2);
+                    Intent intent=new Intent(MainActivity.this,music_play.class);
+                    //显示调用ResultActivity
+                    intent.putExtra("name",name[1]);
+                    intent.putExtra("position",String.valueOf(1));
+
+                    startActivity(intent);
                 }
                 if (r3.isChecked()) {
-                    Log.d(TAG, "check3");
-                    if (mplayer != null && isPlaying) {
-                        mplayer.release();
-                        mplayer.reset();
-                    }
-                    mplayer = MediaPlayer.create(MainActivity.this, R.raw.mtest3);
+                    Intent intent=new Intent(MainActivity.this,music_play.class);
+                    //显示调用ResultActivity
+                    intent.putExtra("name",name[2]);
+                    intent.putExtra("position",String.valueOf(2));
+
+                    startActivity(intent);
                 }
 
-                if (mplayer != null && !isPlaying) {
-                    playBtn.setVisibility(View.GONE);
-                    pauseBtn.setVisibility(View.VISIBLE);
-                    isPlaying = true;
-                    mplayer.start();
-                    Log.d(TAG, "bofaang");
-                    mplayer.setOnCompletionListener(mplayer -> {
-                        mplayer.release();
-                        Toast.makeText(MainActivity.this, "播放结束！", Toast.LENGTH_SHORT).show();
-                        playBtn.setVisibility(View.VISIBLE);
-                        isPlaying = false;
-                    });
-                }
             });
 
-            pauseBtn.setOnClickListener(v12 -> {
-                if (isPlaying) {
-                    mplayer.pause();
-                    Toast.makeText(MainActivity.this, "播放暂停！", Toast.LENGTH_SHORT).show();
-                    isPlaying = false;
-                    ispausing=true;
-                }
-                else {
-                    mplayer.start();
-                    Toast.makeText(MainActivity.this, "继续播放！", Toast.LENGTH_SHORT).show();
-                    isPlaying = true;
-                    ispausing=false;
-                }
-            });
 
-            stopBtn.setOnClickListener(v13 -> {
-                if (isPlaying) {
-                    mplayer.release();
-                    //mplayer.reset();
-                    Toast.makeText(MainActivity.this, "播放停止！", Toast.LENGTH_SHORT).show();
-                    playBtn.setVisibility(View.VISIBLE);
-                    isPlaying = false;
-                    ispausing=false;
-                }
-                else{
-                    Toast.makeText(MainActivity.this, "播放停止！", Toast.LENGTH_SHORT).show();
-                    playBtn.setVisibility(View.VISIBLE);
-                    isPlaying = false;
-                    if(ispausing){
-                        mplayer.release();
-                        //mplayer.reset();
-                        ispausing=false;
-                    }
-
-                }
-            });
 
         }
 

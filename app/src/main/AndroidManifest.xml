@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MUSIC_TOY"
         tools:targetApi="31">
+        <activity android:name=".music_play"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">
